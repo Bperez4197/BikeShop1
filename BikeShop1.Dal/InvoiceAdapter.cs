@@ -148,5 +148,6 @@ namespace BikeShop1.Dal
             invoice.InvoiceDate = reader.GetDateTime(reader.GetOrdinal("InvoiceDate"));
             return invoice;
         }
+
     }
 }

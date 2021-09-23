@@ -10,7 +10,7 @@ namespace BikeShop1.Dal
 {
     public class CustomerAdapter
     {
-        private string _connectionString = @"Data Source=C:\Users\bryce\OneDrive\C#\C# 2 class\BikeShop\BikeShop.db; datetimeformat=CurrentCulture;";
+        private string _connectionString = @"Data Source=C:\Users\bryce\OneDrive\C#\C# 2 class\BikeShop\BikeShop.db; Version=3;";
 
         public List<Customer> GetAll()
         {
@@ -67,6 +67,65 @@ namespace BikeShop1.Dal
             customer.FirstName = reader.GetString(reader.GetOrdinal("FirstName"));
             customer.LastName = reader.GetString(reader.GetOrdinal("LastName"));
             return customer;
+        }
+
+        public bool InsertCustomer(Customer customer)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = "INSERT INTO Customer (FirstName, LastName) VALUES ('" +
+                customer.FirstName + "', '" + customer.LastName + "'); ";
+                connection.Open();
+                int rows = command.ExecuteNonQuery();
+                if (rows > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool UpdateCustomer(Customer customer)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = "UPDATE Customer SET FirstName = '" + customer.FirstName +
+                    "', LastName = '" + customer.LastName + "' WHERE CustomerId = " + customer.CustomerId;
+                connection.Open();
+                int rows = command.ExecuteNonQuery();
+                if(rows > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool DeleteCustomer(int customerId)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Customer WHERE CustomerId = " + customerId;
+                connection.Open();
+                int rows = command.ExecuteNonQuery();
+                if(rows > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }
