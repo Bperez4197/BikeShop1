@@ -42,13 +42,14 @@ namespace BikeShop1.Controllers
             return View(model);
         }
 
-
-
-        public ActionResult Add()
+        public ActionResult Add(int customerId)
         {
             InvoiceModel model = new InvoiceModel();
+            model.CustomerId = customerId;
             return View(model);
         }
+
+
 
         [HttpPost]
         public ActionResult Add(InvoiceModel model)
